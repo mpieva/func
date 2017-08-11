@@ -33,8 +33,14 @@ go_graph::go_graph( set<string> &nodes, istream &term2term, idmap &idm_ )
 		if ( par != temp_graph.end() ) {
 			// child id
 			term2term.getline( s1, 20, '\n' ) ;
-			map<string, go_obj*>::const_iterator child = 
-							temp_graph.find( s1 ) ;
+			string str_s1( s1 ) ;
+			string child_id ;
+			string::size_type tab_pos = str_s1.find( '\t' ) ;
+			if ( tab_pos != string::npos ) {
+				child_id = str_s1.substr( 0, tab_pos ) ;
+			} else child_id = str_s1 ;
+			map<string, go_obj*>::const_iterator child =
+							temp_graph.find( child_id ) ;
 			if ( child != temp_graph.end() ) {
 				child->second->add_parent( par->second ) ;
 			//	par->second->add_child( child->second ) ;
