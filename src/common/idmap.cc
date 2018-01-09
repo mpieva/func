@@ -19,24 +19,24 @@
 
 idmap::idmap( istream &in ) 
 {
-	char line[MAX_LINE_LENGTH_TERMS] ;
+	string line ;
 
 	while ( in ) {
 		// first row: id
-		in.getline( line, MAX_LINE_LENGTH_TERMS, '\t' ) ;
+		getline( in, line, '\t' ) ;
 		string id( line ) ;
 		
 		// skip 2 fields
-		in.getline( line, MAX_LINE_LENGTH_TERMS, '\t' ) ;
-		in.getline( line, MAX_LINE_LENGTH_TERMS, '\t' ) ;
+		getline( in, line, '\t' ) ;
+		getline( in, line, '\t' ) ;
 
 		// GO:Number
-		in.getline( line, MAX_LINE_LENGTH_TERMS, '\t' ) ;
+		getline( in, line, '\t' ) ;
 		string go( line ) ;
 		
 		if ( id.size() > 0 && go.size() > 0 ) (*this)[id]=go ;
 		
-		in.getline( line, MAX_LINE_LENGTH_TERMS, '\n' ) ;
+		getline( in, line, '\n' ) ;
 	}
 }
 

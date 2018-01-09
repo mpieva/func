@@ -20,31 +20,33 @@ go_graph::go_graph( set<string> &nodes, istream &term2term, idmap &idm_ )
 	// read term2term file, create graph
 	while ( term2term ) {
 		// 4 rows, 1 a id, 2 type of relationship, 3 parent, 4 child
-		char s1[20] ;
+		string s1 ;
 
-		term2term.getline( s1, 20, '\t' ) ;
-		term2term.getline( s1, 20, '\t' ) ;
+		getline( term2term, s1, '\t' ) ;
+		getline( term2term, s1, '\t' ) ;
 
 
 		// parent id
-		term2term.getline( s1, 20, '\t' ) ;
+		getline( term2term, s1, '\t' ) ;
 
 		map<string, go_obj*>::const_iterator par = temp_graph.find( s1 ) ;
 		if ( par != temp_graph.end() ) {
 			// child id
-			term2term.getline( s1, 20, '\n' ) ;
-			string str_s1( s1 ) ;
+			getline( term2term, s1, '\n' ) ;
 			string child_id ;
-			string::size_type tab_pos = str_s1.find( '\t' ) ;
+			string::size_type tab_pos = s1.find( '\t' ) ;
 			if ( tab_pos != string::npos ) {
-				child_id = str_s1.substr( 0, tab_pos ) ;
-			} else child_id = str_s1 ;
+				child_id = s1.substr( 0, tab_pos ) ;
+			} else child_id = s1 ;
 			map<string, go_obj*>::const_iterator child =
 							temp_graph.find( child_id ) ;
 			if ( child != temp_graph.end() ) {
 				child->second->add_parent( par->second ) ;
 			//	par->second->add_child( child->second ) ;
 			}	
+		} else {
+			// skip rest if the parent node is not part of the graph
+			getline( term2term, s1, '\n' ) ;
 		}
 	}
 	// rewrite map file because detectedfile has

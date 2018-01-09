@@ -22,7 +22,6 @@
 #include <iostream>
 #include <string>
 #include <map>
-#define MAX_LINE_LENGTH_TERMS 200 
 
 using std::string;
 using std::istream;
